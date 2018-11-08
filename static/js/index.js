@@ -34,6 +34,14 @@ var insertMovie = function() {
     });
 };
 
+var updateLikeCountOnScreen = function(idx, id) {
+    var url = get_like_count_url;
+    url += '?movie_id=' +id; 
+    $.post(url, function(response) {
+        app.movies[idx].like_count = response.like_count;
+    });
+};
+
 var handleThumbClick = function(movieIdx, newThumbState) {
     var jsThumbValue = newThumbState;
     var pythonThumbValue = newThumbState;
@@ -41,8 +49,9 @@ var handleThumbClick = function(movieIdx, newThumbState) {
         jsThumbValue = null;
         pythonThumbValue = None; // this is the global variable defined at the top. None == undefined
     }
+    app.movies[movieIdx].thumb = jsThumbValue;
     $.post(set_thumb_url, { id: app.movies[movieIdx].id, thumb_state: pythonThumbValue }, function(response) {
-        app.movies[movieIdx].thumb = jsThumbValue;
+        updateLikeCountOnScreen(movieIdx, app.movies[movieIdx].id);
     });
 };
 

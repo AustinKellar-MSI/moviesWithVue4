@@ -5,6 +5,7 @@
     var get_movies_url = "{{=URL('api', 'get_all_movies')}}";
     var insert_movie_url = "{{=URL('api', 'insert_movie')}}";
     var set_thumb_url = "{{=URL('api', 'set_thumb')}}";
+    var get_like_count_url = "{{=URL('api', 'get_like_count_on_movie')}}";
     var is_logged_in = {{='false' if auth.user == None else 'true'}};
 </script>
 <div id="app">

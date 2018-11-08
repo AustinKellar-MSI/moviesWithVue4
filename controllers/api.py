@@ -43,6 +43,14 @@ def get_all_movies():
 
         return response.json(dict(movies=movie_list)) # return all movies as a JSON object back to JavaScript
 
+def get_like_count_on_movie():
+    likes = len(db((db.thumbs.movie_id == request.vars.movie_id) & (db.thumbs.thumb_state == 'u')).select())
+    dislikes = len(db((db.thumbs.movie_id == request.vars.movie_id) & (db.thumbs.thumb_state == 'd')).select())
+
+    like_count = likes - dislikes
+            
+    return response.json(dict(like_count=like_count))
+
 def set_thumb():
     db.thumbs.update_or_insert(((db.thumbs.movie_id == request.vars.id) & (db.thumbs.user_email == auth.user.email)),
         movie_id=request.vars.id,
