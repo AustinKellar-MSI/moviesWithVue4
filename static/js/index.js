@@ -41,8 +41,12 @@ var handleThumbClick = function(movieIdx, newThumbState) {
         jsThumbValue = null;
         pythonThumbValue = None; // this is the global variable defined at the top. None == undefined
     }
+
+    app.movies[movieIdx].thumb = jsThumbValue; // this displays the new thumb on the screen!
+
     $.post(set_thumb_url, { id: app.movies[movieIdx].id, thumb_state: pythonThumbValue }, function(response) {
-        app.movies[movieIdx].thumb = jsThumbValue;
+        // This is where we tell JS what to do when the web2py server responds. 
+        // For now we don't need to do anything
     });
 };
 
