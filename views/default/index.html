@@ -1,0 +1,43 @@
+{{ extend 'layout.html'}}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.6.3/css/font-awesome.min.css')}}">
+<script>
+    var get_movies_url = "{{=URL('api', 'get_all_movies')}}";
+    var insert_movie_url = "{{=URL('api', 'insert_movie')}}";
+    var set_thumb_url = "{{=URL('api', 'set_thumb')}}";
+    var is_logged_in = {{='false' if auth.user == None else 'true'}};
+</script>
+<div id="app">
+    <div v-if="!is_logged_in">
+        <h1>Please Log In!</h1>
+    </div>
+    <div v-if="is_logged_in">
+        <div class="insert-movie">
+            <input v-model="newMovieTitle" type="text" placeholder="Title"/><br><br>
+            <textarea v-model="newMovieDescription" placeholder="Description"></textarea><br><br>
+            <input v-model="newMovieRating" type="text" placeholder="Rating"/><br><br>
+            <button v-on:click="submitMovie">Submit Movie</button>
+        </div><br><br>
+
+        <h1>Movies</h1>
+        
+        <div class="movies">
+            <div v-for="movie in movies" class="movie-box">
+                <p>${ movie.title }</p>
+                <p>${ movie.description }</p>
+                <p>${ movie.rating }</p>
+                <div>
+                    <i v-if="movie.thumb == 'u'" v-on:click="clickThumb(movie._idx, 'u')" class="fa fa-thumbs-up"></i>   <!-- filled in thumbs up -->
+                    <i v-if="movie.thumb != 'u'" v-on:click="clickThumb(movie._idx, 'u')" class="fa fa-thumbs-o-up"></i> <!-- hollow thumbs up -->
+
+                    <i v-if="movie.thumb == 'd'" v-on:click="clickThumb(movie._idx, 'd')" class="fa fa-thumbs-down"></i> <!-- filled in thumbs down -->
+                    <i v-if="movie.thumb != 'd'" v-on:click="clickThumb(movie._idx, 'd')" class="fa fa-thumbs-o-down"></i><!-- hollow thumbs down-->
+                </div>
+                Likes: ${movie.like_count}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{=URL('static','js/index.js')}}"></script>
+
